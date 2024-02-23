@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: GravitationalWeapon
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 2919385543451478126, guid: 64e0653c4c5fc41469dbd983d367a1e8, type: 3}
+  bulletPrefab: {fileID: 125302014711110034, guid: 4a773bc52a9650c4ab82a2321f7a6b8a, type: 3}
   weaponType: 1
-  bulletForce: 0
-  gravitationalForce: 10
+  bulletForce: 2
+  gravitationalForce: 30
   coneAngle: 0
   pelletCount: 0

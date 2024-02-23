@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: ParabolicWeapon
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 73366016516136054, guid: a25fe5af054740549ab226b5a82f2fb3, type: 3}
+  bulletPrefab: {fileID: 125302014711110034, guid: 4bca2327a7614bd4abaa93c6751ff785, type: 3}
   weaponType: 0
-  bulletForce: 20
+  bulletForce: 15
   gravitationalForce: 0
   coneAngle: 0
   pelletCount: 0

@@ -22,6 +22,10 @@ public class Weapon : MonoBehaviour
 
     private void FireWeapon()
     {
+        GameObject bulletClone = Instantiate(stats.bulletPrefab);
+        bulletClone.transform.rotation = bulletHolder.rotation;
+        bulletClone.transform.position = bulletHolder.position;
+        bulletClone.GetComponent<Bullet>().Shot(stats);
         switch (stats.weaponType)
         {
             case WeaponStats.Type.Parabollic:
@@ -38,13 +42,11 @@ public class Weapon : MonoBehaviour
 
     private void FireParabolicWeapon()
     {
-        GameObject bulletClone = Instantiate(stats.bulletPrefab, bulletHolder);
-        bulletClone.GetComponent<Bullet>().Shot(stats);
     }
 
     private void FireGravitationalWeapon()
     {
-
+        
     }
 
     private void FireSplinterWeapon()

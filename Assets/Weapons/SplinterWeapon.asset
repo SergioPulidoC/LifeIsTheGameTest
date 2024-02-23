@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SplinterWeapon
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 7327318279747975261, guid: cb3a065b4c1ba6e47ad8a2e7cc23fa27, type: 3}
+  bulletPrefab: {fileID: 125302014711110034, guid: 4bca2327a7614bd4abaa93c6751ff785, type: 3}
   weaponType: 2
   bulletForce: 0
   gravitationalForce: 0
