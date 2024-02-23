@@ -7,11 +7,13 @@ public class WeaponManager : MonoBehaviour
     [SerializeField] private List<WeaponStats> weapons;
     [SerializeField] private float distanceBetweenWeapons;
     [SerializeField] private Transform characterWeaponHolder;
+    [HideInInspector] public Transform character;
     private CombatCanvas combatCanvas;
 
-    private void Start()
+    private void Awake()
     {
         combatCanvas = FindObjectOfType<CombatCanvas>();
+        character = transform.parent;
         InitializeWeapons();
         SwapWeapon(0);
     }
@@ -39,8 +41,9 @@ public class WeaponManager : MonoBehaviour
     private void InitializeCharacterWeapon(WeaponStats stats)
     {
         GameObject weaponClone = Instantiate(stats.weaponPrefab, characterWeaponHolder);
-        weaponClone.AddComponent<Weapon>();
-        weaponClone.GetComponent<Weapon>().stats = stats;
+        Weapon weapon = weaponClone.AddComponent<Weapon>();
+        weapon.stats = stats;
+        weapon.character = character;
     }
 
     private void Update()
@@ -50,15 +53,15 @@ public class WeaponManager : MonoBehaviour
 
     private void CheckForInput()
     {
-        if (Input.GetKeyDown("1"))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             SwapWeapon(0);
         }
-        else if (Input.GetKeyDown("2"))
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             SwapWeapon(1);
         }
-        else if (Input.GetKeyDown("3"))
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             SwapWeapon(2);
         }
@@ -73,5 +76,14 @@ public class WeaponManager : MonoBehaviour
             child.gameObject.SetActive(false);
         characterWeaponHolder.GetChild(newWeaponIdx).gameObject.SetActive(true);
         combatCanvas.HighlightSelectedWeapon(newWeaponIdx);
+    }
+
+    public void DisableAllWeapons()
+    {
+        foreach (Transform weapon in characterWeaponHolder)
+        {
+            print("Disable!!!");
+            weapon.GetComponent<Weapon>().enabled = false;
+        }
     }
 }

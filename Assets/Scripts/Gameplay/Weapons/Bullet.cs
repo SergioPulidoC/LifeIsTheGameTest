@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    [HideInInspector] public Transform character;
+    [HideInInspector] public GameObject spawnedBullet;
     [SerializeField] private GameObject bulletHole;
     private Rigidbody rigid;
     private WeaponStats stats;
@@ -28,9 +30,12 @@ public class Bullet : MonoBehaviour
     {
         if (stats.weaponType == WeaponStats.Type.Gravitational)
             return;
-        Quaternion rotation = Quaternion.FromToRotation(Vector3.up, collision.contacts[0].normal);
-        GameObject hole = Instantiate(bulletHole, collision.contacts[0].point, rotation * Quaternion.Euler(90f, 0f, Random.Range(0f, 360f)));
-        hole.GetComponent<SpriteRenderer>().color = new Color(Random.value, Random.value, Random.value);
+        Quaternion rot = Quaternion.FromToRotation(Vector3.up, collision.contacts[0].normal);
+        rot *= Quaternion.Euler(90f, 0f, Random.Range(0f, 360f));
+        Vector3 pos = collision.contacts[0].point;
+        GameObject hole = Instantiate(bulletHole, pos, rot);
+        Color color = new Color(Random.value, Random.value, Random.value);
+        hole.GetComponent<SpriteRenderer>().color = color;
         hole.transform.position -= hole.transform.forward * 0.2f;
         Destroy(hole, 5);
         Destroy(gameObject);

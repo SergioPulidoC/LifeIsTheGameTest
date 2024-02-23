@@ -6,19 +6,26 @@ using FishNet.Object;
 
 public class CombatCharacter : NetworkBehaviour
 {
+    [SerializeField] private Transform cameraHolder;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private Vector2 rotationLimits;
     private Camera playerCamera;
+    private WeaponManager weaponManager;
 
     public override void OnStartClient()
     {
         base.OnStartClient();
+        weaponManager = transform.Find("WeaponManager").GetComponent<WeaponManager>();
         if (IsOwner)
         {
             playerCamera = Camera.main;
+            playerCamera.transform.parent = cameraHolder;
+            playerCamera.transform.localPosition = Vector3.zero;
+            playerCamera.transform.localRotation = Quaternion.identity;
         }
         else
         {
+            weaponManager.DisableAllWeapons();
             GetComponent<CombatCharacter>().enabled = false;
         }
     }

@@ -7,6 +7,7 @@ public class Weapon : MonoBehaviour
 {
     public Transform bulletHolder;
     public WeaponStats stats;
+    [HideInInspector] public Transform character;
 
     private void Awake()
     {
@@ -19,8 +20,18 @@ public class Weapon : MonoBehaviour
         {
             if (EventSystem.current.IsPointerOverGameObject())
                 return;
+            if (!IsMouseOverGameWindow)
+                return;
             FireWeapon();
         }
+    }
+
+    bool IsMouseOverGameWindow
+    {
+        get 
+        { 
+            return !(0 > Input.mousePosition.x || 0 > Input.mousePosition.y || Screen.width < Input.mousePosition.x || Screen.height < Input.mousePosition.y); 
+        } 
     }
 
     private void FireWeapon()
@@ -45,6 +56,8 @@ public class Weapon : MonoBehaviour
         GameObject bulletClone = Instantiate(stats.bulletPrefab);
         bulletClone.transform.rotation = bulletHolder.rotation;
         bulletClone.transform.position = bulletHolder.position;
+        bulletClone.GetComponent<Bullet>().character = character;
+        bulletClone.GetComponent<Bullet>().Shot(stats);
         return bulletClone;
     }
 
@@ -52,12 +65,14 @@ public class Weapon : MonoBehaviour
     {
         GameObject bullet = InstantiateBullet();
         bullet.GetComponent<Bullet>().Shot(stats);
+        character.GetComponent<PlayerSpawnBullet>().SpawnBullet(bullet, stats, bulletHolder.position, bulletHolder.rotation, character);
     }
 
     private void FireGravitationalWeapon()
     {
         GameObject bullet = InstantiateBullet();
         bullet.GetComponent<Bullet>().Shot(stats);
+        character.GetComponent<PlayerSpawnBullet>().SpawnBullet(bullet, stats, bulletHolder.position, bulletHolder.rotation, character);
     }
 
     private void FireSplinterWeapon()
@@ -70,6 +85,7 @@ public class Weapon : MonoBehaviour
             float yRotation = Random.Range(-coneAngle, coneAngle);
             bullet.transform.Rotate(xRotation, yRotation, 0f);
             bullet.GetComponent<Bullet>().Shot(stats);
+            character.GetComponent<PlayerSpawnBullet>().SpawnBullet(bullet, stats, bulletHolder.position, bullet.transform.rotation, character);
         }
     }
 }
