@@ -7,10 +7,11 @@ public class WeaponManager : MonoBehaviour
     [SerializeField] private List<WeaponStats> weapons;
     [SerializeField] private float distanceBetweenWeapons;
     [SerializeField] private Transform characterWeaponHolder;
-    private int activeWeaponIdx;
+    private CombatCanvas combatCanvas;
 
     private void Start()
     {
+        combatCanvas = FindObjectOfType<CombatCanvas>();
         InitializeWeapons();
         SwapWeapon(0);
     }
@@ -71,6 +72,6 @@ public class WeaponManager : MonoBehaviour
         foreach (Transform child in characterWeaponHolder)
             child.gameObject.SetActive(false);
         characterWeaponHolder.GetChild(newWeaponIdx).gameObject.SetActive(true);
-        activeWeaponIdx = newWeaponIdx;
+        combatCanvas.HighlightSelectedWeapon(newWeaponIdx);
     }
 }

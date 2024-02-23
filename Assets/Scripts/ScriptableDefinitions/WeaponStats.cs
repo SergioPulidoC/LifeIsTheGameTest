@@ -6,7 +6,7 @@ public class WeaponStats : ScriptableObject
 {
     public enum Type
     {
-        Parabollic,
+        Parabolic,
         Gravitational,
         Splinter
     }

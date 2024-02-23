@@ -18,7 +18,10 @@ public class Bullet : MonoBehaviour
         stats = weaponStats;
         rigid.AddForce(transform.forward * stats.bulletForce, ForceMode.Impulse);
         if (stats.weaponType == WeaponStats.Type.Gravitational)
+        {
             gravitationRadius = GetComponents<SphereCollider>()[1].radius;
+            Destroy(gameObject, 15);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -31,7 +34,6 @@ public class Bullet : MonoBehaviour
         hole.transform.position -= hole.transform.forward * 0.2f;
         Destroy(hole, 5);
         Destroy(gameObject);
-
     }
 
     private void OnTriggerEnter(Collider other)
@@ -48,7 +50,6 @@ public class Bullet : MonoBehaviour
         Rigidbody otherRigid = other.GetComponent<Rigidbody>();
         Vector3 dirVector = transform.position - other.transform.position;
         float distance = dirVector.magnitude;
-        Debug.Log(gravitationRadius);
         while (distance <= gravitationRadius)
         {
             dirVector = transform.position - other.transform.position;
@@ -56,7 +57,6 @@ public class Bullet : MonoBehaviour
             if (distance > 0)
             {
                 float amplitude = -distance / gravitationRadius + 1;
-                Debug.Log(amplitude);
                 otherRigid.velocity += dirVector.normalized * amplitude * Time.deltaTime * stats.gravitationalForce;
             }
             yield return null;

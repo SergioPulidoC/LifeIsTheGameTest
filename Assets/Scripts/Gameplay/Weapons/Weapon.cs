@@ -22,13 +22,10 @@ public class Weapon : MonoBehaviour
 
     private void FireWeapon()
     {
-        GameObject bulletClone = Instantiate(stats.bulletPrefab);
-        bulletClone.transform.rotation = bulletHolder.rotation;
-        bulletClone.transform.position = bulletHolder.position;
-        bulletClone.GetComponent<Bullet>().Shot(stats);
+
         switch (stats.weaponType)
         {
-            case WeaponStats.Type.Parabollic:
+            case WeaponStats.Type.Parabolic:
                 FireParabolicWeapon();
                 break;
             case WeaponStats.Type.Gravitational:
@@ -40,17 +37,36 @@ public class Weapon : MonoBehaviour
         }
     }
 
+    private GameObject InstantiateBullet()
+    {
+        GameObject bulletClone = Instantiate(stats.bulletPrefab);
+        bulletClone.transform.rotation = bulletHolder.rotation;
+        bulletClone.transform.position = bulletHolder.position;
+        return bulletClone;
+    }
+
     private void FireParabolicWeapon()
     {
+        GameObject bullet = InstantiateBullet();
+        bullet.GetComponent<Bullet>().Shot(stats);
     }
 
     private void FireGravitationalWeapon()
     {
-        
+        GameObject bullet = InstantiateBullet();
+        bullet.GetComponent<Bullet>().Shot(stats);
     }
 
     private void FireSplinterWeapon()
     {
-
+        for (int i = 0; i < stats.pelletCount; i++)
+        {
+            GameObject bullet = InstantiateBullet();
+            float coneAngle = stats.coneAngle;
+            float xRotation = Random.Range(-coneAngle, coneAngle);
+            float yRotation = Random.Range(-coneAngle, coneAngle);
+            bullet.transform.Rotate(xRotation, yRotation, 0f);
+            bullet.GetComponent<Bullet>().Shot(stats);
+        }
     }
 }
