@@ -16,6 +16,6 @@ MonoBehaviour:
   bulletPrefab: {fileID: 125302014711110034, guid: 4a773bc52a9650c4ab82a2321f7a6b8a, type: 3}
   weaponType: 1
   bulletForce: 2
-  gravitationalForce: 30
+  gravitationalForce: 10
   coneAngle: 0
   pelletCount: 0
